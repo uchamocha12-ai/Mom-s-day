@@ -122,7 +122,7 @@
             margin: 8px 0;
         }
 
-        /* Fotos estilo polaroid */
+        /* ✅ FOTOS CON MOVIMIENTO - Desktop */
         .photo {
             background: white;
             padding: 10px 10px 40px 10px;
@@ -130,20 +130,46 @@
             width: 200px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
+            /* Animación de flotación continua */
+            animation: floatPhoto 6s ease-in-out infinite;
         }
 
-        .photo:nth-child(odd) {
-            transform: rotate(-4deg);
-        }
+        /* Diferentes delays para que no se muevan todas igual */
+        .photos-column.left .photo:nth-child(1) { animation-delay: 0s; }
+        .photos-column.left .photo:nth-child(2) { animation-delay: 1s; }
+        .photos-column.left .photo:nth-child(3) { animation-delay: 2s; }
+        .photos-column.left .photo:nth-child(4) { animation-delay: 3s; }
+        .photos-column.left .photo:nth-child(5) { animation-delay: 4s; }
+        
+        .photos-column.right .photo:nth-child(1) { animation-delay: 0.5s; }
+        .photos-column.right .photo:nth-child(2) { animation-delay: 1.5s; }
+        .photos-column.right .photo:nth-child(3) { animation-delay: 2.5s; }
+        .photos-column.right .photo:nth-child(4) { animation-delay: 3.5s; }
+        .photos-column.right .photo:nth-child(5) { animation-delay: 4.5s; }
 
-        .photo:nth-child(even) {
-            transform: rotate(4deg);
+        /* Rotaciones iniciales diferentes */
+        .photos-column.left .photo:nth-child(odd) { 
+            transform: rotate(-6deg);
+            animation-name: floatLeftOdd;
+        }
+        .photos-column.left .photo:nth-child(even) { 
+            transform: rotate(5deg);
+            animation-name: floatLeftEven;
+        }
+        .photos-column.right .photo:nth-child(odd) { 
+            transform: rotate(5deg);
+            animation-name: floatRightOdd;
+        }
+        .photos-column.right .photo:nth-child(even) { 
+            transform: rotate(-6deg);
+            animation-name: floatRightEven;
         }
 
         .photo:hover {
             transform: scale(1.08) rotate(0deg) !important;
             box-shadow: 0 12px 30px rgba(0,0,0,0.6);
             z-index: 10;
+            animation-play-state: paused; /* Pausa la animación al hacer hover */
         }
 
         .photo img {
@@ -153,6 +179,32 @@
             border-radius: 4px;
             display: block;
             transition: transform 0.3s ease;
+        }
+
+        /* ✅ Animaciones de flotación para desktop */
+        @keyframes floatPhoto {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+
+        @keyframes floatLeftOdd {
+            0%, 100% { transform: translateY(0px) rotate(-6deg); }
+            50% { transform: translateY(-15px) rotate(-4deg); }
+        }
+
+        @keyframes floatLeftEven {
+            0%, 100% { transform: translateY(0px) rotate(5deg); }
+            50% { transform: translateY(-15px) rotate(7deg); }
+        }
+
+        @keyframes floatRightOdd {
+            0%, 100% { transform: translateY(0px) rotate(5deg); }
+            50% { transform: translateY(-15px) rotate(7deg); }
+        }
+
+        @keyframes floatRightEven {
+            0%, 100% { transform: translateY(0px) rotate(-6deg); }
+            50% { transform: translateY(-15px) rotate(-4deg); }
         }
 
         /* Contenedor de fotos para móvil */
@@ -201,12 +253,36 @@
                 text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
                 margin-bottom: 14px;
             }
-            
+
+            /* ✅ FOTOS CON MOVIMIENTO - Móvil */
             .photo {
                 width: 145px;
                 margin: 0;
+                animation: floatMobile 5s ease-in-out infinite;
             }
-            
+
+            /* Diferentes animaciones para cada foto en móvil */
+            .photos-group .photo:nth-child(1) { 
+                animation: floatMobile1 5s ease-in-out infinite;
+                transform: rotate(-5deg);
+            }
+            .photos-group .photo:nth-child(2) { 
+                animation: floatMobile2 5.5s ease-in-out infinite;
+                transform: rotate(4deg);
+            }
+            .photos-group .photo:nth-child(3) { 
+                animation: floatMobile3 6s ease-in-out infinite;
+                transform: rotate(-6deg);
+            }
+            .photos-group .photo:nth-child(4) { 
+                animation: floatMobile4 5.5s ease-in-out infinite;
+                transform: rotate(5deg);
+            }
+            .photos-group .photo:nth-child(5) { 
+                animation: floatMobile5 6s ease-in-out infinite;
+                transform: rotate(-4deg);
+            }
+
             .photo img {
                 height: 130px;
                 border-radius: 8px;
@@ -229,14 +305,8 @@
             /* Animación de entrada */
             .photo {
                 opacity: 0;
-                animation: fadeInPhoto 0.6s ease-out forwards;
+                animation: fadeInPhoto 0.6s ease-out forwards, floatMobile 5s ease-in-out infinite 0.6s;
             }
-            
-            .photo:nth-child(1) { animation-delay: 0.1s; }
-            .photo:nth-child(2) { animation-delay: 0.15s; }
-            .photo:nth-child(3) { animation-delay: 0.2s; }
-            .photo:nth-child(4) { animation-delay: 0.25s; }
-            .photo:nth-child(5) { animation-delay: 0.3s; }
             
             @keyframes fadeInPhoto {
                 from {
@@ -247,6 +317,28 @@
                     opacity: 1;
                     transform: translateY(0) rotate(-4deg);
                 }
+            }
+
+            /* ✅ Animaciones de flotación para móvil */
+            @keyframes floatMobile1 {
+                0%, 100% { transform: translateY(0px) rotate(-5deg); }
+                50% { transform: translateY(-10px) rotate(-3deg); }
+            }
+            @keyframes floatMobile2 {
+                0%, 100% { transform: translateY(0px) rotate(4deg); }
+                50% { transform: translateY(-12px) rotate(6deg); }
+            }
+            @keyframes floatMobile3 {
+                0%, 100% { transform: translateY(0px) rotate(-6deg); }
+                50% { transform: translateY(-11px) rotate(-4deg); }
+            }
+            @keyframes floatMobile4 {
+                0%, 100% { transform: translateY(0px) rotate(5deg); }
+                50% { transform: translateY(-13px) rotate(7deg); }
+            }
+            @keyframes floatMobile5 {
+                0%, 100% { transform: translateY(0px) rotate(-4deg); }
+                50% { transform: translateY(-10px) rotate(-2deg); }
             }
         }
 
@@ -305,6 +397,7 @@
             width: 300px;
             padding: 15px 15px 50px 15px;
             box-shadow: 0 0 0 1000px rgba(0,0,0,0.8);
+            animation: none !important; /* Pausa la animación cuando está expandida */
         }
         
         .photo.expanded img {
