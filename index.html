@@ -155,39 +155,56 @@
             transition: transform 0.3s ease;
         }
 
+        /* Contenedor de fotos para móvil */
+        .photos-wrapper-mobile {
+            display: none;
+        }
+
         /* =========================================
            ✅ OPTIMIZACIÓN PARA MÓVILES
            ========================================= */
         @media (max-width: 1100px) {
             .main-layout {
-                grid-template-columns: 1fr;
-                gap: 20px;
+                display: none;
             }
             
-            .photos-column {
-                flex-direction: row;
+            .photos-wrapper-mobile {
+                display: block;
+            }
+            
+            .photos-group {
+                display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
+                gap: 12px;
                 padding: 10px;
-                gap: 15px;
+                margin-bottom: 25px;
             }
             
-            .photos-column.left, .photos-column.right {
-                align-items: center;
-            }
-            
-            .text-box {
-                position: relative;
-                top: auto;
-                order: -1;
-                padding: 25px 20px;
-                margin-bottom: 20px;
+            .text-box-mobile {
                 background: rgba(255, 255, 255, 0.25);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border-radius: 16px;
+                padding: 25px 20px;
+                text-align: center;
+                box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+                border: 1px solid rgba(255,255,255,0.2);
+                margin: 20px 10px;
+                animation: fadeInCenter 1.5s ease-out;
+            }
+            
+            .text-box-mobile p {
+                font-size: 1em;
+                line-height: 1.6;
+                color: #fff;
+                text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+                margin-bottom: 14px;
             }
             
             .photo {
                 width: 145px;
-                margin: 5px;
+                margin: 0;
             }
             
             .photo img {
@@ -200,11 +217,6 @@
                 margin-bottom: 10px;
             }
             
-            .text-box p { 
-                font-size: 1em;
-                line-height: 1.6;
-            }
-            
             .audio-wrapper {
                 max-width: 90%;
                 margin: 0 auto 25px auto;
@@ -214,7 +226,7 @@
                 background: rgba(0, 0, 0, 0.6);
             }
             
-            /* Animación de entrada en móvil */
+            /* Animación de entrada */
             .photo {
                 opacity: 0;
                 animation: fadeInPhoto 0.6s ease-out forwards;
@@ -247,7 +259,6 @@
             .photo {
                 width: 130px;
                 padding: 8px 8px 35px 8px;
-                margin: 4px;
             }
             
             .photo img {
@@ -259,12 +270,13 @@
                 font-size: 1.7em;
             }
             
-            .text-box {
+            .text-box-mobile {
                 padding: 20px 15px;
+                margin: 15px 8px;
                 border-radius: 12px;
             }
             
-            .text-box p {
+            .text-box-mobile p {
                 font-size: 0.95em;
                 line-height: 1.55;
             }
@@ -273,8 +285,8 @@
                 font-size: 1.2em;
             }
             
-            .photos-column {
-                gap: 10px;
+            .photos-group {
+                gap: 8px;
                 padding: 5px;
             }
             
@@ -332,6 +344,69 @@
             </audio>
         </div>
 
+        <!-- ✅ VERSIÓN MÓVIL: 5 fotos - texto - 5 fotos -->
+        <div class="photos-wrapper-mobile">
+            <!-- Primeras 5 fotos -->
+            <div class="photos-group">
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto1.jpg" alt="Foto 1" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto2.jpg" alt="Foto 2" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto3.jpg" alt="Foto 3" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto4.jpg" alt="Foto 4" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto5.jpg" alt="Foto 5" loading="lazy">
+                </div>
+            </div>
+
+            <!-- Texto central -->
+            <div class="text-box-mobile">
+                <p>
+                    Muchos te llaman <span class="highlight">Alejandra</span>; papá te llama "mi amor", "mi vida", "mi cielo"... 
+                    pero nosotros (<span class="highlight">JuanFe y Loki</span>) te llamamos <span class="highlight">"Mamá"</span>. 
+                    Eres la mejor mamá del mundo. Tu amor es el refugio donde todo cobra sentido. 
+                    Tus manos son paz, tu sonrisa es luz, y tu abrazo es el lugar donde el mundo se detiene y todo está bien.
+                </p>
+                <div class="emoji-divider">🌸 💙</div>
+                <p>
+                    Nos sentimos infinitamente <span class="highlight">orgullosos</span> de ti, de la mujer y madre que eres cada día. 
+                    Sabemos que no podríamos vivir sin ti, porque eres el aire que llena <span class="highlight">nuestros</span> pulmones de esperanza 
+                    y la razón que da sentido a <span class="highlight">nuestros</span> días. 
+                    Eres nuestra <span class="highlight">superheroína</span> con un <span class="highlight">millón</span> de superpoderes aunque no lo creas, 
+                    y nuestro <span class="highlight">ángel</span> en la tierra. Te amamos millones.
+                </p>
+                <p style="margin-top: 18px; font-size: 1.25em;">
+                    💖 ¡Feliz Día Mamá! 💖
+                </p>
+            </div>
+
+            <!-- Últimas 5 fotos -->
+            <div class="photos-group">
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto6.jpg" alt="Foto 6" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto7.jpg" alt="Foto 7" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto8.jpg" alt="Foto 8" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto9.jpg" alt="Foto 9" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto10.jpg" alt="Foto 10" loading="lazy">
+                </div>
+            </div>
+        </div>
+
+        <!-- ✅ VERSIÓN DESKTOP: fotos a los lados del texto -->
         <div class="main-layout">
             <!-- Columna izquierda: Fotos 1-5 -->
             <div class="photos-column left">
