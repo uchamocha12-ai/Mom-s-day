@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Feliz Día Mamá</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -17,6 +17,7 @@
             color: white;
             overflow-x: hidden;
             overflow-y: auto;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .overlay {
@@ -39,6 +40,12 @@
             font-size: 2.8em;
             margin-bottom: 15px;
             text-shadow: 3px 3px 10px rgba(0,0,0,0.8);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .audio-wrapper {
@@ -54,7 +61,7 @@
             background: rgba(255,255,255,0.9);
         }
 
-        /* Layout de 3 columnas: fotos izquierda - texto - fotos derecha */
+        /* Layout de 3 columnas para desktop */
         .main-layout {
             display: grid;
             grid-template-columns: 1fr 500px 1fr;
@@ -62,7 +69,6 @@
             align-items: start;
         }
 
-        /* Columnas de fotos */
         .photos-column {
             display: flex;
             flex-direction: column;
@@ -82,6 +88,7 @@
         .text-box {
             background: rgba(255, 255, 255, 0.18);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 16px;
             padding: 35px;
             text-align: center;
@@ -89,6 +96,12 @@
             border: 1px solid rgba(255,255,255,0.2);
             position: sticky;
             top: 20px;
+            animation: fadeInCenter 1.5s ease-out;
+        }
+
+        @keyframes fadeInCenter {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .text-box p {
@@ -116,20 +129,21 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.4);
             width: 200px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: float 6s ease-in-out infinite alternate;
-        }
-
-        .photo:nth-child(even) {
-            transform: rotate(4deg);
+            cursor: pointer;
         }
 
         .photo:nth-child(odd) {
             transform: rotate(-4deg);
         }
 
+        .photo:nth-child(even) {
+            transform: rotate(4deg);
+        }
+
         .photo:hover {
-            transform: scale(1.05) rotate(0deg) !important;
+            transform: scale(1.08) rotate(0deg) !important;
             box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+            z-index: 10;
         }
 
         .photo img {
@@ -138,41 +152,170 @@
             object-fit: cover;
             border-radius: 4px;
             display: block;
+            transition: transform 0.3s ease;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0) rotate(var(--rot, 4deg)); }
-            100% { transform: translateY(-8px) rotate(var(--rot, -4deg)); }
-        }
-
-        /* Responsive: en móvil se apilan */
+        /* =========================================
+           ✅ OPTIMIZACIÓN PARA MÓVILES
+           ========================================= */
         @media (max-width: 1100px) {
             .main-layout {
                 grid-template-columns: 1fr;
+                gap: 20px;
             }
+            
             .photos-column {
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: center;
                 padding: 10px;
+                gap: 15px;
             }
+            
             .photos-column.left, .photos-column.right {
                 align-items: center;
             }
+            
             .text-box {
                 position: relative;
                 top: auto;
                 order: -1;
+                padding: 25px 20px;
+                margin-bottom: 20px;
+                background: rgba(255, 255, 255, 0.25);
             }
+            
             .photo {
-                width: 160px;
-                animation: none;
+                width: 145px;
+                margin: 5px;
             }
+            
             .photo img {
-                height: 140px;
+                height: 130px;
+                border-radius: 8px;
             }
-            .title { font-size: 2.2em; }
-            .text-box p { font-size: 1.05em; }
+            
+            .title { 
+                font-size: 2em;
+                margin-bottom: 10px;
+            }
+            
+            .text-box p { 
+                font-size: 1em;
+                line-height: 1.6;
+            }
+            
+            .audio-wrapper {
+                max-width: 90%;
+                margin: 0 auto 25px auto;
+            }
+            
+            .overlay {
+                background: rgba(0, 0, 0, 0.6);
+            }
+            
+            /* Animación de entrada en móvil */
+            .photo {
+                opacity: 0;
+                animation: fadeInPhoto 0.6s ease-out forwards;
+            }
+            
+            .photo:nth-child(1) { animation-delay: 0.1s; }
+            .photo:nth-child(2) { animation-delay: 0.15s; }
+            .photo:nth-child(3) { animation-delay: 0.2s; }
+            .photo:nth-child(4) { animation-delay: 0.25s; }
+            .photo:nth-child(5) { animation-delay: 0.3s; }
+            
+            @keyframes fadeInPhoto {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px) rotate(-4deg);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) rotate(-4deg);
+                }
+            }
+        }
+
+        /* ✅ MEJORAS PARA CELULARES PEQUEÑOS */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px 10px 40px 10px;
+            }
+            
+            .photo {
+                width: 130px;
+                padding: 8px 8px 35px 8px;
+                margin: 4px;
+            }
+            
+            .photo img {
+                height: 115px;
+                border-radius: 6px;
+            }
+            
+            .title {
+                font-size: 1.7em;
+            }
+            
+            .text-box {
+                padding: 20px 15px;
+                border-radius: 12px;
+            }
+            
+            .text-box p {
+                font-size: 0.95em;
+                line-height: 1.55;
+            }
+            
+            .emoji-divider {
+                font-size: 1.2em;
+            }
+            
+            .photos-column {
+                gap: 10px;
+                padding: 5px;
+            }
+            
+            audio {
+                border-radius: 20px;
+            }
+        }
+
+        /* Efecto "lightbox" al tocar en móvil */
+        .photo.expanded {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.5) rotate(0deg) !important;
+            z-index: 1000;
+            width: 300px;
+            padding: 15px 15px 50px 15px;
+            box-shadow: 0 0 0 1000px rgba(0,0,0,0.8);
+        }
+        
+        .photo.expanded img {
+            height: auto;
+            max-height: 70vh;
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.5);
         }
     </style>
 </head>
@@ -190,13 +333,23 @@
         </div>
 
         <div class="main-layout">
-            <!-- Columna izquierda de fotos (5 fotos) -->
+            <!-- Columna izquierda: Fotos 1-5 -->
             <div class="photos-column left">
-                <div class="photo"><img src="foto1.jpg" alt="Foto 1"></div>
-                <div class="photo"><img src="foto2.jpg" alt="Foto 2"></div>
-                <div class="photo"><img src="foto3.jpg" alt="Foto 3"></div>
-                <div class="photo"><img src="foto4.jpg" alt="Foto 4"></div>
-                <div class="photo"><img src="foto5.jpg" alt="Foto 5"></div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto1.jpg" alt="Foto 1" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto2.jpg" alt="Foto 2" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto3.jpg" alt="Foto 3" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto4.jpg" alt="Foto 4" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto5.jpg" alt="Foto 5" loading="lazy">
+                </div>
             </div>
 
             <!-- Texto central -->
@@ -220,15 +373,54 @@
                 </p>
             </div>
 
-            <!-- Columna derecha de fotos (5 fotos) -->
+            <!-- Columna derecha: Fotos 6-10 -->
             <div class="photos-column right">
-                <div class="photo"><img src="foto6.jpg" alt="Foto 6"></div>
-                <div class="photo"><img src="foto7.jpg" alt="Foto 7"></div>
-                <div class="photo"><img src="foto8.jpg" alt="Foto 8"></div>
-                <div class="photo"><img src="foto9.jpg" alt="Foto 9"></div>
-                <div class="photo"><img src="foto10.jpg" alt="Foto 10"></div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto6.jpg" alt="Foto 6" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto7.jpg" alt="Foto 7" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto8.jpg" alt="Foto 8" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto9.jpg" alt="Foto 9" loading="lazy">
+                </div>
+                <div class="photo" onclick="toggleExpand(this)">
+                    <img src="foto10.jpg" alt="Foto 10" loading="lazy">
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // ✅ Efecto "Tap to Expand" para móviles
+        function toggleExpand(element) {
+            // Cerrar cualquier foto expandida
+            document.querySelectorAll('.photo.expanded').forEach(photo => {
+                if (photo !== element) {
+                    photo.classList.remove('expanded');
+                }
+            });
+            
+            // Toggle la foto actual
+            element.classList.toggle('expanded');
+        }
+
+        // Cerrar al tocar fuera
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.photo')) {
+                document.querySelectorAll('.photo.expanded').forEach(photo => {
+                    photo.classList.remove('expanded');
+                });
+            }
+        });
+
+        // ✅ Prevenir zoom accidental en iOS
+        document.addEventListener('gesturestart', function (e) {
+            e.preventDefault();
+        });
+    </script>
 </body>
 </html>
