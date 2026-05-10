@@ -61,7 +61,9 @@
             background: rgba(255,255,255,0.9);
         }
 
-        /* Layout de 3 columnas para desktop */
+        /* =========================================
+           VISTA DE ESCRITORIO (PC)
+           ========================================= */
         .main-layout {
             display: grid;
             grid-template-columns: 1fr 500px 1fr;
@@ -76,15 +78,9 @@
             padding: 20px;
         }
 
-        .photos-column.left {
-            align-items: flex-end;
-        }
+        .photos-column.left { align-items: flex-end; }
+        .photos-column.right { align-items: flex-start; }
 
-        .photos-column.right {
-            align-items: flex-start;
-        }
-
-        /* Caja de texto central */
         .text-box {
             background: rgba(255, 255, 255, 0.18);
             backdrop-filter: blur(12px);
@@ -112,17 +108,10 @@
             margin-bottom: 14px;
         }
 
-        .highlight {
-            font-weight: bold;
-            color: #ffd700;
-        }
+        .highlight { font-weight: bold; color: #ffd700; }
+        .emoji-divider { font-size: 1.4em; margin: 8px 0; }
 
-        .emoji-divider {
-            font-size: 1.4em;
-            margin: 8px 0;
-        }
-
-        /* ✅ FOTOS CON MOVIMIENTO - Desktop */
+        /* Fotos Desktop */
         .photo {
             background: white;
             padding: 10px 10px 40px 10px;
@@ -130,46 +119,24 @@
             width: 200px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
-            /* Animación de flotación continua */
-            animation: floatPhoto 6s ease-in-out infinite;
+            animation: floatDesktop 6s ease-in-out infinite;
         }
-
-        /* Diferentes delays para que no se muevan todas igual */
-        .photos-column.left .photo:nth-child(1) { animation-delay: 0s; }
-        .photos-column.left .photo:nth-child(2) { animation-delay: 1s; }
-        .photos-column.left .photo:nth-child(3) { animation-delay: 2s; }
-        .photos-column.left .photo:nth-child(4) { animation-delay: 3s; }
-        .photos-column.left .photo:nth-child(5) { animation-delay: 4s; }
         
-        .photos-column.right .photo:nth-child(1) { animation-delay: 0.5s; }
-        .photos-column.right .photo:nth-child(2) { animation-delay: 1.5s; }
-        .photos-column.right .photo:nth-child(3) { animation-delay: 2.5s; }
-        .photos-column.right .photo:nth-child(4) { animation-delay: 3.5s; }
-        .photos-column.right .photo:nth-child(5) { animation-delay: 4.5s; }
+        /* Animación flotante Desktop */
+        @keyframes floatDesktop {
+            0%, 100% { transform: translateY(0px) rotate(-3deg); }
+            50% { transform: translateY(-12px) rotate(3deg); }
+        }
 
-        /* Rotaciones iniciales diferentes */
-        .photos-column.left .photo:nth-child(odd) { 
-            transform: rotate(-6deg);
-            animation-name: floatLeftOdd;
-        }
-        .photos-column.left .photo:nth-child(even) { 
-            transform: rotate(5deg);
-            animation-name: floatLeftEven;
-        }
-        .photos-column.right .photo:nth-child(odd) { 
-            transform: rotate(5deg);
-            animation-name: floatRightOdd;
-        }
-        .photos-column.right .photo:nth-child(even) { 
-            transform: rotate(-6deg);
-            animation-name: floatRightEven;
-        }
+        /* Variaciones para que no se muevan igual */
+        .photos-column .photo:nth-child(even) { animation-delay: 1s; animation-duration: 7s; }
+        .photos-column .photo:nth-child(3n) { animation-delay: 2s; animation-duration: 5s; }
 
         .photo:hover {
             transform: scale(1.08) rotate(0deg) !important;
             box-shadow: 0 12px 30px rgba(0,0,0,0.6);
             z-index: 10;
-            animation-play-state: paused; /* Pausa la animación al hacer hover */
+            animation-play-state: paused;
         }
 
         .photo img {
@@ -178,57 +145,29 @@
             object-fit: cover;
             border-radius: 4px;
             display: block;
-            transition: transform 0.3s ease;
-        }
-
-        /* ✅ Animaciones de flotación para desktop */
-        @keyframes floatPhoto {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
-        }
-
-        @keyframes floatLeftOdd {
-            0%, 100% { transform: translateY(0px) rotate(-6deg); }
-            50% { transform: translateY(-15px) rotate(-4deg); }
-        }
-
-        @keyframes floatLeftEven {
-            0%, 100% { transform: translateY(0px) rotate(5deg); }
-            50% { transform: translateY(-15px) rotate(7deg); }
-        }
-
-        @keyframes floatRightOdd {
-            0%, 100% { transform: translateY(0px) rotate(5deg); }
-            50% { transform: translateY(-15px) rotate(7deg); }
-        }
-
-        @keyframes floatRightEven {
-            0%, 100% { transform: translateY(0px) rotate(-6deg); }
-            50% { transform: translateY(-15px) rotate(-4deg); }
-        }
-
-        /* Contenedor de fotos para móvil */
-        .photos-wrapper-mobile {
-            display: none;
         }
 
         /* =========================================
-           ✅ OPTIMIZACIÓN PARA MÓVILES
+           VISTA MÓVIL (CELULAR)
            ========================================= */
+        .photos-wrapper-mobile {
+            display: none; /* Oculto por defecto */
+        }
+
         @media (max-width: 1100px) {
             .main-layout {
-                display: none;
+                display: none !important; /* Forzar ocultamiento en móvil */
             }
             
             .photos-wrapper-mobile {
-                display: block;
+                display: block !important; /* Forzar visualización en móvil */
             }
             
             .photos-group {
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
-                gap: 12px;
+                gap: 15px;
                 padding: 10px;
                 margin-bottom: 25px;
             }
@@ -254,174 +193,67 @@
                 margin-bottom: 14px;
             }
 
-            /* ✅ FOTOS CON MOVIMIENTO - Móvil */
+            /* Estilos de fotos en móvil */
             .photo {
-                width: 145px;
-                margin: 0;
-                animation: floatMobile 5s ease-in-out infinite;
-            }
-
-            /* Diferentes animaciones para cada foto en móvil */
-            .photos-group .photo:nth-child(1) { 
-                animation: floatMobile1 5s ease-in-out infinite;
-                transform: rotate(-5deg);
-            }
-            .photos-group .photo:nth-child(2) { 
-                animation: floatMobile2 5.5s ease-in-out infinite;
-                transform: rotate(4deg);
-            }
-            .photos-group .photo:nth-child(3) { 
-                animation: floatMobile3 6s ease-in-out infinite;
-                transform: rotate(-6deg);
-            }
-            .photos-group .photo:nth-child(4) { 
-                animation: floatMobile4 5.5s ease-in-out infinite;
-                transform: rotate(5deg);
-            }
-            .photos-group .photo:nth-child(5) { 
-                animation: floatMobile5 6s ease-in-out infinite;
+                width: 140px;
+                margin: 5px;
+                /* Animación suave y simple para móvil */
+                animation: floatMobile 4s ease-in-out infinite alternate;
                 transform: rotate(-4deg);
             }
 
+            /* Variaciones de animación móvil */
+            .photos-group .photo:nth-child(even) { 
+                transform: rotate(4deg); 
+                animation-delay: 1s;
+            }
+            .photos-group .photo:nth-child(3n) { 
+                transform: rotate(-2deg); 
+                animation-delay: 2s;
+            }
+
+            @keyframes floatMobile {
+                from { transform: translateY(0px) rotate(var(--rot, -4deg)); }
+                to { transform: translateY(-10px) rotate(var(--rot, 4deg)); }
+            }
+
             .photo img {
-                height: 130px;
+                height: 120px;
                 border-radius: 8px;
             }
             
-            .title { 
-                font-size: 2em;
-                margin-bottom: 10px;
-            }
-            
-            .audio-wrapper {
-                max-width: 90%;
-                margin: 0 auto 25px auto;
-            }
-            
-            .overlay {
-                background: rgba(0, 0, 0, 0.6);
-            }
-            
-            /* Animación de entrada */
-            .photo {
-                opacity: 0;
-                animation: fadeInPhoto 0.6s ease-out forwards, floatMobile 5s ease-in-out infinite 0.6s;
-            }
-            
-            @keyframes fadeInPhoto {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px) rotate(-4deg);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0) rotate(-4deg);
-                }
-            }
-
-            /* ✅ Animaciones de flotación para móvil */
-            @keyframes floatMobile1 {
-                0%, 100% { transform: translateY(0px) rotate(-5deg); }
-                50% { transform: translateY(-10px) rotate(-3deg); }
-            }
-            @keyframes floatMobile2 {
-                0%, 100% { transform: translateY(0px) rotate(4deg); }
-                50% { transform: translateY(-12px) rotate(6deg); }
-            }
-            @keyframes floatMobile3 {
-                0%, 100% { transform: translateY(0px) rotate(-6deg); }
-                50% { transform: translateY(-11px) rotate(-4deg); }
-            }
-            @keyframes floatMobile4 {
-                0%, 100% { transform: translateY(0px) rotate(5deg); }
-                50% { transform: translateY(-13px) rotate(7deg); }
-            }
-            @keyframes floatMobile5 {
-                0%, 100% { transform: translateY(0px) rotate(-4deg); }
-                50% { transform: translateY(-10px) rotate(-2deg); }
-            }
+            .title { font-size: 2em; margin-bottom: 10px; }
+            .audio-wrapper { max-width: 95%; margin: 0 auto 25px auto; }
+            .overlay { background: rgba(0, 0, 0, 0.6); }
         }
 
-        /* ✅ MEJORAS PARA CELULARES PEQUEÑOS */
+        /* Pantallas muy pequeñas */
         @media (max-width: 480px) {
-            .container {
-                padding: 15px 10px 40px 10px;
-            }
-            
-            .photo {
-                width: 130px;
-                padding: 8px 8px 35px 8px;
-            }
-            
-            .photo img {
-                height: 115px;
-                border-radius: 6px;
-            }
-            
-            .title {
-                font-size: 1.7em;
-            }
-            
-            .text-box-mobile {
-                padding: 20px 15px;
-                margin: 15px 8px;
-                border-radius: 12px;
-            }
-            
-            .text-box-mobile p {
-                font-size: 0.95em;
-                line-height: 1.55;
-            }
-            
-            .emoji-divider {
-                font-size: 1.2em;
-            }
-            
-            .photos-group {
-                gap: 8px;
-                padding: 5px;
-            }
-            
-            audio {
-                border-radius: 20px;
-            }
+            .container { padding: 15px 5px 40px 5px; }
+            .photo { width: 130px; }
+            .photo img { height: 110px; }
+            .title { font-size: 1.7em; }
+            .text-box-mobile { padding: 20px 15px; margin: 15px 5px; }
+            .text-box-mobile p { font-size: 0.95em; }
         }
 
-        /* Efecto "lightbox" al tocar en móvil */
+        /* Lightbox para ver fotos grandes */
         .photo.expanded {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(1.5) rotate(0deg) !important;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(1.6) rotate(0deg) !important;
             z-index: 1000;
             width: 300px;
             padding: 15px 15px 50px 15px;
-            box-shadow: 0 0 0 1000px rgba(0,0,0,0.8);
-            animation: none !important; /* Pausa la animación cuando está expandida */
+            box-shadow: 0 0 0 1000px rgba(0,0,0,0.85);
+            animation: none !important;
         }
-        
-        .photo.expanded img {
-            height: auto;
-            max-height: 70vh;
-        }
+        .photo.expanded img { height: auto; max-height: 70vh; }
 
-        /* Scrollbar personalizada */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.2);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.3);
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255,255,255,0.5);
-        }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -437,28 +269,20 @@
             </audio>
         </div>
 
-        <!-- ✅ VERSIÓN MÓVIL: 5 fotos - texto - 5 fotos -->
+        <!-- =========================================
+             VISTA MÓVIL (Se activa con CSS)
+             ========================================= -->
         <div class="photos-wrapper-mobile">
-            <!-- Primeras 5 fotos -->
+            <!-- 5 Primeras Fotos -->
             <div class="photos-group">
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto1.jpg" alt="Foto 1" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto2.jpg" alt="Foto 2" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto3.jpg" alt="Foto 3" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto4.jpg" alt="Foto 4" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto5.jpg" alt="Foto 5" loading="lazy">
-                </div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto1.jpg" alt="Foto 1" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto2.jpg" alt="Foto 2" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto3.jpg" alt="Foto 3" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto4.jpg" alt="Foto 4" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto5.jpg" alt="Foto 5" loading="lazy"></div>
             </div>
 
-            <!-- Texto central -->
+            <!-- Texto Central -->
             <div class="text-box-mobile">
                 <p>
                     Muchos te llaman <span class="highlight">Alejandra</span>; papá te llama "mi amor", "mi vida", "mi cielo"... 
@@ -474,53 +298,33 @@
                     Eres nuestra <span class="highlight">superheroína</span> con un <span class="highlight">millón</span> de superpoderes aunque no lo creas, 
                     y nuestro <span class="highlight">ángel</span> en la tierra. Te amamos millones.
                 </p>
-                <p style="margin-top: 18px; font-size: 1.25em;">
-                    💖 ¡Feliz Día Mamá! 💖
-                </p>
+                <p style="margin-top: 18px; font-size: 1.25em;">💖 ¡Feliz Día Mamá! 💖</p>
             </div>
 
-            <!-- Últimas 5 fotos -->
+            <!-- 5 Últimas Fotos -->
             <div class="photos-group">
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto6.jpg" alt="Foto 6" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto7.jpg" alt="Foto 7" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto8.jpg" alt="Foto 8" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto9.jpg" alt="Foto 9" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto10.jpg" alt="Foto 10" loading="lazy">
-                </div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto6.jpg" alt="Foto 6" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto7.jpg" alt="Foto 7" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto8.jpg" alt="Foto 8" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto9.jpg" alt="Foto 9" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto10.jpg" alt="Foto 10" loading="lazy"></div>
             </div>
         </div>
 
-        <!-- ✅ VERSIÓN DESKTOP: fotos a los lados del texto -->
+        <!-- =========================================
+             VISTA ESCRITORIO (Se oculta en móvil)
+             ========================================= -->
         <div class="main-layout">
-            <!-- Columna izquierda: Fotos 1-5 -->
+            <!-- Columna izquierda -->
             <div class="photos-column left">
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto1.jpg" alt="Foto 1" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto2.jpg" alt="Foto 2" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto3.jpg" alt="Foto 3" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto4.jpg" alt="Foto 4" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto5.jpg" alt="Foto 5" loading="lazy">
-                </div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto1.jpg" alt="Foto 1" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto2.jpg" alt="Foto 2" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto3.jpg" alt="Foto 3" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto4.jpg" alt="Foto 4" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto5.jpg" alt="Foto 5" loading="lazy"></div>
             </div>
 
-            <!-- Texto central -->
+            <!-- Texto Central -->
             <div class="text-box">
                 <p>
                     Muchos te llaman <span class="highlight">Alejandra</span>; papá te llama "mi amor", "mi vida", "mi cielo"... 
@@ -536,59 +340,33 @@
                     Eres nuestra <span class="highlight">superheroína</span> con un <span class="highlight">millón</span> de superpoderes aunque no lo creas, 
                     y nuestro <span class="highlight">ángel</span> en la tierra. Te amamos millones.
                 </p>
-                <p style="margin-top: 18px; font-size: 1.25em;">
-                    💖 ¡Feliz Día Mamá! 💖
-                </p>
+                <p style="margin-top: 18px; font-size: 1.25em;">💖 ¡Feliz Día Mamá! 💖</p>
             </div>
 
-            <!-- Columna derecha: Fotos 6-10 -->
+            <!-- Columna derecha -->
             <div class="photos-column right">
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto6.jpg" alt="Foto 6" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto7.jpg" alt="Foto 7" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto8.jpg" alt="Foto 8" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto9.jpg" alt="Foto 9" loading="lazy">
-                </div>
-                <div class="photo" onclick="toggleExpand(this)">
-                    <img src="foto10.jpg" alt="Foto 10" loading="lazy">
-                </div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto6.jpg" alt="Foto 6" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto7.jpg" alt="Foto 7" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto8.jpg" alt="Foto 8" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto9.jpg" alt="Foto 9" loading="lazy"></div>
+                <div class="photo" onclick="toggleExpand(this)"><img src="foto10.jpg" alt="Foto 10" loading="lazy"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // ✅ Efecto "Tap to Expand" para móviles
         function toggleExpand(element) {
-            // Cerrar cualquier foto expandida
             document.querySelectorAll('.photo.expanded').forEach(photo => {
-                if (photo !== element) {
-                    photo.classList.remove('expanded');
-                }
+                if (photo !== element) photo.classList.remove('expanded');
             });
-            
-            // Toggle la foto actual
             element.classList.toggle('expanded');
         }
-
-        // Cerrar al tocar fuera
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.photo')) {
-                document.querySelectorAll('.photo.expanded').forEach(photo => {
-                    photo.classList.remove('expanded');
-                });
+                document.querySelectorAll('.photo.expanded').forEach(photo => photo.classList.remove('expanded'));
             }
         });
-
-        // ✅ Prevenir zoom accidental en iOS
-        document.addEventListener('gesturestart', function (e) {
-            e.preventDefault();
-        });
+        document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
     </script>
 </body>
 </html>
